@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GATE DA — Syllabus Navigator</title>
+<meta name="description" content="Topic-wise GATE Data Science & AI syllabus navigator with concept-level video search, English/Tamil toggle, spaced-repetition revision tracker, and live exam countdown.">
+<meta property="og:title" content="GATE DA — Syllabus Navigator">
+<meta property="og:description" content="Full GATE DA syllabus, broken into topic → subtopic → concept, each linked to a targeted video search. Built-in spaced-repetition revision tracker and countdown to GATE 2027.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b1210">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101a17'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%234fd1ae' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23ffb454'/%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #0b1210;
+    --panel: #101a17;
+    --line: #1e2e29;
+    --text: #dce8e2;
+    --dim: #6f8b81;
+    --signal: #ffb454;
+    --danger: #ff6b6b;
+    --wire: #4fd1ae;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0/100% 28px,
+      var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+  }
+
+  .rail{
+    position: fixed; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--wire), var(--signal), var(--wire));
+    background-size: 200% 100%;
+    animation: flow 6s linear infinite;
+  }
+  @keyframes flow{ to{ background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce){ .rail{ animation:none; } }
+
+  header{ max-width: 920px; margin: 0 auto; padding: 56px 24px 24px; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: .18em; color: var(--wire);
+    text-transform: uppercase; margin-bottom: 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:7px; height:7px; border-radius:50%;
+    background: var(--wire); box-shadow: 0 0 8px var(--wire);
+  }
+
+  h1{
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.05; margin: 0 0 12px;
+    font-weight: 700; letter-spacing: -0.02em;
+  }
+  h1 span{ color: var(--signal); }
+
+  .sub{ color: var(--dim); max-width: 62ch; font-size: 15px; line-height: 1.6; }
+
+  .countdown{ max-width: 920px; margin: 24px auto 0; padding: 0 24px; }
+  .countdown-panel{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .countdown-label{
+    font-family:'IBM Plex Mono', monospace; font-size: 11px;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--dim);
+  }
+  .countdown-label .date{ display:block; color: var(--wire); font-size: 12px; margin-top: 4px; }
+  .countdown-units{ display:flex; gap: 20px; }
+  .unit{ text-align:center; min-width: 52px; }
+  .unit .num{
+    font-family:'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600;
+    color: var(--signal); line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .unit .lbl{
+    font-family:'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--dim); margin-top: 6px;
+  }
+
+  main{ max-width: 920px; margin: 0 auto; padding: 24px 24px 40px; }
+
+  .console{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 26px; position: relative; overflow: hidden;
+  }
+  .console::before{
+    content: "SYLLABUS://query";
+    position:absolute; top:14px; right:20px;
+    font-family:'IBM Plex Mono', monospace; font-size: 10.5px;
+    letter-spacing: .1em; color: var(--line);
+  }
+
+  .field{ margin-bottom: 18px; }
+  .field label{
+    display:block; font-family:'IBM Plex Mono', monospace; font-size: 11px;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px;
+  }
+  .field label .n{ color: var(--signal); margin-right: 6px; }
+
+  select{
+    width: 100%; background: #0c1613; border: 1px solid var(--line); color: var(--text);
+    font-family: 'Space Grotesk', sans-serif; font-size: 16px; padding: 13px 16px;
+    border-radius: 7px; appearance: none; -webkit-appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%234fd1ae' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center;
+    transition: border-color .15s ease;
+  }
+  select:hover{ border-color: var(--wire); }
+  select:focus{ outline: 2px solid var(--signal); outline-offset: 2px; }
+  select:disabled{ opacity: .35; cursor: not-allowed; }
+
+  .lang-toggle{ display:flex; gap: 8px; }
+  .lang-btn{
+    flex:1; background:#0c1613; border:1px solid var(--line); color: var(--dim);
+    font-family:'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing:.05em;
+    padding: 11px 10px; border-radius: 7px; cursor:pointer; transition: all .15s ease;
+  }
+  .lang-btn.active{ border-color: var(--wire); color: var(--wire); background:#0e1a16; }
+  .lang-btn:hover{ border-color: var(--wire); }
+
+  .divider{ height:1px; background: var(--line); margin: 24px 0; }
+
+  .concepts{ display: flex; flex-direction: column; gap: 10px; }
+
+  .concept-row{
+    display:flex; align-items:center; gap: 12px;
+    padding: 13px 14px; background: #0c1613; border: 1px solid var(--line);
+    border-radius: 7px; opacity: 0; animation: rise .4s ease forwards;
+    transition: border-color .15s ease;
+  }
+  .concept-row:hover{ border-color: #2a4038; }
+  .concept-row.due{ border-color: var(--danger); }
+
+  .cb{
+    width: 20px; height: 20px; flex-shrink:0; border-radius: 5px;
+    border: 1.5px solid var(--line); background: #0c1613; cursor: pointer;
+    display:flex; align-items:center; justify-content:center; padding:0;
+    color: var(--bg); font-size: 13px; font-weight:700; font-family: inherit;
+    transition: all .15s ease;
+  }
+  .cb:hover{ border-color: var(--wire); }
+  .cb.checked{ background: var(--wire); border-color: var(--wire); }
+
+  .concept-main{ flex:1; min-width:0; }
+  .concept-row .name{ font-size: 14.5px; font-weight: 500; display:block; }
+  .concept-meta{
+    font-family:'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--dim);
+    margin-top: 3px; display:flex; gap: 10px; flex-wrap:wrap;
+  }
+  .concept-meta .due-tag{ color: var(--danger); }
+  .concept-meta .done-tag{ color: var(--wire); }
+
+  .watch-link{
+    font-family:'IBM Plex Mono', monospace; font-size: 11px; color: var(--dim);
+    text-decoration:none; white-space:nowrap; flex-shrink:0;
+    padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px;
+    transition: all .15s ease;
+  }
+  .watch-link:hover{ color: var(--signal); border-color: var(--signal); }
+
+  @keyframes rise{ from{ opacity:0; transform: translateY(6px); } to{ opacity:1; transform: translateY(0); } }
+
+  .empty{
+    color: var(--dim); font-family:'IBM Plex Mono', monospace; font-size: 13px;
+    padding: 30px 4px; text-align: center; border: 1px dashed var(--line); border-radius: 7px;
+  }
+
+  .cb:focus-visible, .watch-link:focus-visible, .lang-btn:focus-visible, select:focus-visible{
+    outline: 2px solid var(--signal); outline-offset: 2px;
+  }
+
+  .progress-wrap{
+    max-width: 920px; margin: 24px auto 0; padding: 0 24px;
+  }
+  .progress-panel{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 18px 24px;
+  }
+  .progress-top{
+    display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 10px;
+  }
+  .progress-top .lbl{
+    font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing:.14em;
+    text-transform:uppercase; color: var(--dim);
+  }
+  .progress-top .val{
+    font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--wire);
+  }
+  .progress-bar{
+    height: 8px; background: #0c1613; border: 1px solid var(--line); border-radius: 5px; overflow:hidden;
+  }
+  .progress-fill{
+    height: 100%; background: linear-gradient(90deg, var(--wire), var(--signal));
+    border-radius: 5px; transition: width .4s ease; width: 0%;
+  }
+
+  .dash{ max-width: 920px; margin: 20px auto 0; padding: 0 24px; }
+  .dash-panel{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 26px;
+  }
+  .dash-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 16px; flex-wrap:wrap; gap:10px; }
+  .dash-title{
+    font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing:.14em;
+    text-transform:uppercase; color: var(--dim);
+  }
+  .streak-badge{
+    font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--signal);
+    border: 1px solid var(--signal-border, #4a381f); background: #1a140a; padding: 6px 12px;
+    border-radius: 20px; display:flex; align-items:center; gap:6px;
+  }
+  .streak-badge .fire{ font-size: 13px; }
+
+  .dash-grid{
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px;
+  }
+  .dash-card{
+    background:#0c1613; border:1px solid var(--line); border-radius:8px; padding:14px;
+    cursor:pointer; transition: border-color .15s ease, transform .1s ease; text-align:left;
+    font-family: inherit; color: var(--text);
+  }
+  .dash-card:hover{ border-color: var(--wire); transform: translateY(-2px); }
+  .dash-card .t-name{ font-size: 13px; font-weight:600; margin-bottom: 8px; display:block; }
+  .dash-card .t-bar{ height:5px; background:#0a1310; border-radius:4px; overflow:hidden; margin-bottom: 6px; }
+  .dash-card .t-fill{ height:100%; background: var(--wire); border-radius:4px; }
+  .dash-card .t-pct{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--dim); }
+
+  .mini-progress{
+    display:flex; align-items:center; gap: 10px; margin-top: -6px; margin-bottom: 16px;
+  }
+  .mini-progress .bar{ flex:1; height:5px; background:#0c1613; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+  .mini-progress .bar-fill{ height:100%; background: var(--wire); border-radius:4px; transition: width .3s ease; }
+  .mini-progress .label{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--dim); white-space:nowrap; }
+
+  .concept-row.mastered{ opacity: .58; }
+  .concept-row.mastered .name{ text-decoration: line-through; text-decoration-color: var(--wire); }
+
+  .io-buttons{ display:flex; gap:8px; margin-top: 14px; }
+  .io-btn{
+    background:none; border:1px solid var(--line); color:var(--dim);
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; padding:7px 12px;
+    border-radius:6px; cursor:pointer; transition: all .15s ease;
+  }
+  .io-btn:hover{ border-color: var(--wire); color: var(--wire); }
+
+  .tracker{ max-width: 920px; margin: 20px auto 0; padding: 0 24px; }
+  .tracker-panel{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 26px;
+  }
+  .tracker-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 14px; }
+  .tracker-title{
+    font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing:.14em;
+    text-transform:uppercase; color: var(--dim);
+  }
+  .tracker-title .count{ color: var(--danger); }
+  .tracker-list{ display:flex; flex-direction:column; gap:8px; }
+  .tracker-item{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 10px 12px; background:#0c1613; border:1px solid var(--line); border-radius:6px;
+    font-size: 13px;
+  }
+  .tracker-item .path{ color: var(--dim); font-size: 11px; font-family:'IBM Plex Mono', monospace; }
+  .tracker-empty{ color: var(--dim); font-family:'IBM Plex Mono', monospace; font-size: 12.5px; }
+
+  .note{
+    font-family:'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--dim);
+    line-height: 1.6; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line);
+  }
+
+  footer{
+    max-width: 920px; margin: 0 auto; padding: 30px 24px 60px;
+    color: var(--line); font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em;
+  }
+</style>
+</head>
+<body>
+<div class="rail"></div>
+
+<header>
+  <div class="eyebrow">GATE DA · 2027</div>
+  <h1>Pick a topic.<br>Find the <span>exact</span> video.</h1>
+  <p class="sub">Topic → subtopic → concept, matched to the full official GATE DA syllabus. Check off a concept once you've learned it — it comes back on your revision tracker in 8 days, four times, spaced apart, until it sticks.</p>
+</header>
+
+<div class="countdown">
+  <div class="countdown-panel">
+    <div class="countdown-label">Time to GATE DA 2027<span class="date" id="examDateLabel"></span></div>
+    <div class="countdown-units" id="countdownUnits">
+      <div class="unit"><div class="num" id="cd-days">--</div><div class="lbl">Days</div></div>
+      <div class="unit"><div class="num" id="cd-hours">--</div><div class="lbl">Hrs</div></div>
+      <div class="unit"><div class="num" id="cd-mins">--</div><div class="lbl">Min</div></div>
+      <div class="unit"><div class="num" id="cd-secs">--</div><div class="lbl">Sec</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-panel">
+    <div class="progress-top">
+      <span class="lbl">Overall mastery</span>
+      <span class="val" id="progressVal">0 / 0 concepts</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</div>
+
+<div class="dash">
+  <div class="dash-panel">
+    <div class="dash-head">
+      <span class="dash-title">Topic breakdown</span>
+      <div class="streak-badge" id="streakBadge"><span class="fire">🔥</span><span id="streakVal">0 day streak</span></div>
+    </div>
+    <div class="dash-grid" id="dashGrid"></div>
+    <div class="io-buttons">
+      <button type="button" class="io-btn" id="exportBtn">Export progress (.json)</button>
+      <button type="button" class="io-btn" id="importBtn">Import progress</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none;">
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="console">
+    <div class="field">
+      <label><span class="n">01</span>Topic</label>
+      <select id="topicSelect"></select>
+    </div>
+    <div class="field">
+      <label><span class="n">02</span>Subtopic</label>
+      <select id="subtopicSelect" disabled></select>
+    </div>
+    <div class="field">
+      <label><span class="n">03</span>Video language</label>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="english" id="btnEnglish">English</button>
+        <button class="lang-btn" data-lang="tamil" id="btnTamil">தமிழ் Tamil</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <label style="display:block; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-bottom:12px;">
+      <span style="color:var(--signal); margin-right:6px;">04</span>Concepts
+    </label>
+    <div class="mini-progress" id="miniProgress" style="display:none;">
+      <span class="label" id="miniProgressLabel">0 / 0</span>
+      <div class="bar"><div class="bar-fill" id="miniProgressFill"></div></div>
+    </div>
+    <div class="concepts" id="conceptList">
+      <div class="empty">Select a topic and subtopic above to see concepts.</div>
+    </div>
+  </div>
+</main>
+
+<div class="tracker">
+  <div class="tracker-panel">
+    <div class="tracker-head">
+      <div class="tracker-title">Due for revision <span class="count" id="dueCount"></span></div>
+    </div>
+    <div class="tracker-list" id="trackerList"></div>
+    <div class="note">
+      Checkbox state and revision dates save to this browser only (localStorage) — no server, no login. This page can't send a phone notification after you close the tab; open it each morning and this panel tells you exactly what's due. Each concept needs 4 successive check-ins, 8 days apart, to count as fully revised.
+      <button type="button" id="resetBtn" style="margin-top:10px; display:block; background:none; border:1px solid var(--line); color:var(--dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; padding:7px 12px; border-radius:6px; cursor:pointer;">Reset all progress</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Links open a YouTube search scoped to the concept + your chosen language — verify the specific video before relying on it.
+</footer>
+
+<script>
+const DATA = {
+  "Linear Algebra": {
+    "Vectors & Spaces": ["Vector spaces and subspaces", "Linear dependence and independence", "Basis and dimension", "Span of vectors"],
+    "Matrices": ["Matrix general properties", "Rank and nullity of a matrix", "Determinant of a matrix", "Matrix inverse", "Gaussian elimination", "Systems of linear equations"],
+    "Special Matrices": ["Projection matrix", "Orthogonal matrix", "Idempotent matrix", "Partition matrix", "Quadratic forms"],
+    "Eigen Theory": ["Eigenvalues and eigenvectors", "Diagonalization of matrix", "Symmetric matrices"],
+    "Decompositions": ["Singular value decomposition SVD", "LU decomposition", "Orthogonal projections"]
+  },
+  "Probability & Statistics": {
+    "Probability Basics": ["Probability axioms and sample space", "Conditional and joint probability", "Bayes theorem", "Independent and mutually exclusive events", "Permutations and combinations counting"],
+    "Random Variables": ["Random variables and PMF", "Marginal probability", "Conditional expectation and variance", "Continuous PDF and CDF", "Conditional PDF"],
+    "Distributions": ["Uniform and Bernoulli distribution", "Binomial distribution", "Poisson distribution", "Normal and standard normal distribution", "t distribution", "Chi squared distribution", "Exponential distribution"],
+    "Descriptive Statistics": ["Mean median mode standard deviation", "Correlation and covariance"],
+    "Statistical Inference": ["Central Limit Theorem CLT", "Maximum Likelihood Estimation MLE", "Confidence intervals", "Hypothesis testing basics", "z-test", "t-test", "Chi-squared test", "Linear regression theory"]
+  },
+  "Calculus & Optimization": {
+    "Differentiation": ["Single variable calculus", "Partial derivatives", "Gradient and Jacobian", "Chain rule for backpropagation", "Maxima and minima"],
+    "Optimization": ["Convex functions", "Gradient descent", "Stochastic gradient descent", "Lagrange multipliers"]
+  },
+  "Programming & Data Structures": {
+    "Python Foundations": ["Python data types", "Functions and recursion", "Object oriented programming basics"],
+    "Data Structures": ["Arrays and strings", "Linked lists", "Stacks and queues", "Trees and binary search trees", "Graphs and graph traversal", "Hash tables"],
+    "Algorithms": ["Sorting algorithms", "Searching algorithms", "Time complexity and Big O"]
+  },
+  "Database Management & Warehousing": {
+    "SQL": ["SQL queries basics", "SQL joins", "Normalization 1NF 2NF 3NF BCNF", "Keys and constraints"],
+    "Data Warehousing": ["ETL process explained", "OLAP vs OLTP", "Star schema and snowflake schema", "Data cubes and aggregation"]
+  },
+  "Machine Learning": {
+    "Supervised Learning": ["Linear regression", "Logistic regression", "Decision trees", "Support vector machines SVM", "K nearest neighbours KNN", "Naive Bayes classifier"],
+    "Unsupervised Learning": ["K means clustering", "Hierarchical clustering", "Principal component analysis PCA"],
+    "Ensemble Methods": ["Random forest", "Bagging and boosting", "XGBoost explained"
