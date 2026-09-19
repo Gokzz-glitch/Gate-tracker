@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>GATE Sprint · One-month study tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav><span class="brand">GATE<span>·</span>SPRINT</span><span class="pill">30 days · 4 hours/day</span></nav>
+    <div class="hero-copy">
+      <p class="eyebrow">Focused preparation workspace</p>
+      <h1>Small sessions.<br><em>Compounding scores.</em></h1>
+      <p class="lede">A practical one-month runway through Probability & Statistics, P&amp;C, Speed–Time–Work, and Machine Learning.</p>
+    </div>
+    <div class="hero-stats"><div><strong id="heroDone">0%</strong><span>month complete</span></div><div><strong>120h</strong><span>planned focus</span></div><div><strong id="heroStreak">0</strong><span>day streak</span></div></div>
+  </header>
+
+  <main>
+    <section class="dashboard">
+      <div class="section-heading"><div><p class="eyebrow">Your dashboard</p><h2>Keep the chain going</h2></div><button id="resetBtn" class="text-btn">Reset progress</button></div>
+      <div class="progress-card">
+        <div class="progress-top"><span>Overall progress</span><strong id="overallLabel">0 / 30 days</strong></div>
+        <div class="bar"><i id="overallBar"></i></div>
+        <div class="legend"><span><i class="dot teal"></i>Completed sessions</span><span><i class="dot orange"></i>Today</span><span id="hoursLabel">0 / 120 hours logged</span></div>
+      </div>
+      <div class="topic-grid" id="topicSummary"></div>
+    </section>
+
+    <section class="tracker-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">The runway</p><h2>30-day study plan</h2><p class="subtle">Every day is four 50-minute focus blocks + a 40-minute review.</p></div>
+        <select id="topicFilter" aria-label="Filter by topic"><option value="all">All topics</option><option value="probability">Probability &amp; Statistics</option><option value="pnc">Permutations &amp; Combinations</option><option value="stw">Speed · Time · Work</option><option value="ml">Machine Learning</option></select>
+      </div>
+      <div id="dayList" class="day-list"></div>
+    </section>
+
+    <section class="resources">
+      <div class="section-heading"><div><p class="eyebrow">Learn with signal</p><h2>Resources &amp; playlists</h2></div></div>
+      <div class="resource-grid">
+        <article class="resource featured"><div class="resource-icon">▶</div><div><span class="tag">Playlist 01 · intuition</span><h3>StatQuest — Statistics Fundamentals</h3><p>Clear visual explanations for distributions, inference, regression, and ML intuition.</p><a href="https://www.youtube.com/playlist?list=PLblh5JKOoLUK0FLuzwntyYI10UQFUhsY9" target="_blank" rel="noopener">Open playlist ↗</a></div></article>
+        <article class="resource featured"><div class="resource-icon">▶</div><div><span class="tag">Playlist 02 · mathematics</span><h3>Probability Bootcamp — Steve Brunton</h3><p>Mathematical foundations: random variables, expectation, Bayes, and distributions.</p><a href="https://www.youtube.com/playlist?list=PLMrJAkhIeNNR3sNYvfgiKgcStwuPSts9V" target="_blank" rel="noopener">Open playlist ↗</a></div></article>
+        <article class="resource"><span class="tag">Reference</span><h3>GATE DA official papers</h3><p>Use official papers to calibrate difficulty and practice topic-wise PYQs.</p><a href="https://gate2025.iitr.ac.in/question-papers.html" target="_blank" rel="noopener">Question papers ↗</a></article>
+        <article class="resource"><span class="tag">Machine learning</span><h3>Andrew Ng · Machine Learning</h3><p>Structured course for supervised learning, evaluation, and practical intuition.</p><a href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank" rel="noopener">Course page ↗</a></article>
+        <article class="resource"><span class="tag">Practice</span><h3>GATE PYQ archive</h3><p>Extra solved papers and explanations for spaced practice after each topic.</p><a href="https://www.geeksforgeeks.org/gate/gate-previous-year-question-paper/" target="_blank" rel="noopener">Browse PYQs ↗</a></article>
+      </div>
+    </section>
+
+    <section class="notes-section">
+      <div class="section-heading"><div><p class="eyebrow">Your scratchpad</p><h2>Notes &amp; review queue</h2><p class="subtle">Capture mistakes, formulas, and questions to revisit.</p></div></div>
+      <textarea id="notes" placeholder="e.g. Revisit Bayes when events are not mutually exclusive…"></textarea>
+      <div class="notes-footer"><span id="saveStatus">Saved locally in your browser</span><button id="clearNotes" class="text-btn">Clear notes</button></div>
+    </section>
+  </main>
+  <footer><span>GATE·SPRINT / built for a focused month</span><span>Progress stays on this device · no account required</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
