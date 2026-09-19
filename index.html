@@ -34,10 +34,14 @@
         <div><p class="eyebrow">The runway</p><h2>30-day interleaved plan</h2><p class="subtle">Every day names exact subtopics: learn, revise a secondary topic, solve matched questions, then mix verified PYQs.</p></div>
         <select id="topicFilter" aria-label="Filter by topic"><option value="all">All topics</option><option value="probability">Probability &amp; Statistics</option><option value="pnc">Permutations &amp; Combinations</option><option value="stw">Speed · Time · Work</option><option value="ml">Machine Learning</option></select>
       </div>
+      <div class="sticky-progress" aria-label="Plan progress">
+        <div><strong id="stickyLabel">0 / 30 days</strong><span id="stickyHint">Start with Day 01</span></div>
+        <div class="sticky-actions"><button id="nextDayBtn" type="button">Open next day</button><a href="#resources">Resources</a></div>
+      </div>
       <div id="dayList" class="day-list"></div>
     </section>
 
-    <section class="resources">
+    <section class="resources" id="resources">
       <div class="section-heading"><div><p class="eyebrow">Learn with signal</p><h2>Resources &amp; playlists</h2></div></div>
       <div class="resource-grid">
         <article class="resource featured"><div class="resource-icon">▶</div><div><span class="tag">Playlist 01 · intuition</span><h3>StatQuest — Statistics Fundamentals</h3><p>Clear visual explanations for distributions, inference, regression, and ML intuition.</p><a href="https://www.youtube.com/playlist?list=PLblh5JKOoLUK0FLuzwntyYI10UQFUhsY9" target="_blank" rel="noopener">Open playlist ↗</a></div></article>

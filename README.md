@@ -17,6 +17,8 @@ The sequence revisits each area several times, moves from foundations to mixed s
 
 The day cards link to stable, known resources: the GATE official question-paper archive, IndiaBix topic practice pages, StatQuest, Khan Academy, and Andrew Ng's course page. The official archive is a source, not an assertion that every year contains every listed topic. Before recording a PYQ, open the paper/PDF, verify the year and topic yourself, and log the exact question number in your notes. No exact paper section or year is claimed by this tracker.
 
+The runway uses compact expandable day cards and a sticky progress bar with an “Open next day” shortcut. Each card separates the video step from the post-learning practice/PYQ step; locked practice links are intentionally muted and marked with a lock until the Learn checkbox is complete.
+
 ## Storage and compatibility
 
 Progress and notes remain in `localStorage` under `gate-sprint-v1`. The app reads the existing `done` and `notes` fields, so progress from the previous tracker continues to work. No account, API, or dependency is required. Reset removes only this tracker key.
