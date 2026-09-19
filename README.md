@@ -1,45 +1,36 @@
 # GATE·SPRINT
 
-A dependency-free, static one-month study tracker for **4 focused hours per day**. It covers Speed–Time–Work, Permutations & Combinations, Probability & Statistics, and Machine Learning with daily learning tasks, question counts, and PYQ targets.
+Dependency-free, static HTML/CSS/JS tracker for a focused 30-day GATE DA revision cycle. Open `index.html` directly or run `python -m http.server 8000`.
 
-## Strategy
+## Interleaving strategy
 
-Use the four tasks as four 50-minute blocks, then keep the final 40 minutes for error-log review, spaced recall, or a short break. Learn a concept, solve the stated volume without notes, then do the PYQs topic-wise. Treat accuracy and an honest error log as the scorecard—not videos watched.
+This is intentionally **not** four isolated subject blocks. Every day has:
 
-The two included playlists have complementary roles:
+1. an exact main-topic set of subtopics;
+2. a short secondary revision from another area;
+3. topic-matched practice; and
+4. mixed PYQs plus an error-log review.
 
-- [StatQuest — Statistics Fundamentals](https://www.youtube.com/playlist?list=PLblh5JKOoLUK0FLuzwntyYI10UQFUhsY9): intuition and visual explanations.
-- [Probability Bootcamp — Steve Brunton](https://www.youtube.com/playlist?list=PLMrJAkhIeNNR3sNYvfgiKgcStwuPSts9V): mathematical probability foundations.
+The sequence revisits each area several times, moves from foundations to mixed sets, and finishes with integrated consolidation. A learning checkbox controls the paper links under that learning row: links are visibly gated until the learning session is marked complete, so practice follows understanding rather than becoming a generic test-series list.
 
-Use StatQuest first for a concept, then Brunton selectively when you need a derivation. Add the linked GATE papers, Andrew Ng course, and PYQ archive as practice—not as a reason to collect more resources.
+## Sources and verification caveat
 
-## A one-month limitation (and opinion)
+The day cards link to stable, known resources: the GATE official question-paper archive, IndiaBix topic practice pages, StatQuest, Khan Academy, and Andrew Ng's course page. The official archive is a source, not an assertion that every year contains every listed topic. Before recording a PYQ, open the paper/PDF, verify the year and topic yourself, and log the exact question number in your notes. No exact paper section or year is claimed by this tracker.
 
-Thirty days is enough for a focused first pass, a useful formula/error notebook, and a baseline of timed practice; it is **not** enough to claim mastery of four broad subjects. This plan intentionally values breadth and feedback over perfect coverage. After day 30, repeat weak topics in a second cycle, increase PYQ difficulty, and add full-length mocks. If your exam is close, protect sleep and prioritize PYQs and analysis over finishing every video.
+## Storage and compatibility
 
-## Run locally
+Progress and notes remain in `localStorage` under `gate-sprint-v1`. The app reads the existing `done` and `notes` fields, so progress from the previous tracker continues to work. No account, API, or dependency is required. Reset removes only this tracker key.
 
-No build step or dependencies are required. Open `index.html` directly in a modern browser, or serve the folder:
+## Gemini decision
 
-```bash
-python -m http.server 8000
-```
+Gemini is deliberately omitted. A static study tracker does not need a model API, and shipping a key would expose it. There is no hard-coded credential or network proxy. If an assistant is added later, it must use an explicitly user-entered key stored locally with a prominent warning that browser storage is not a secure secret vault.
 
-Then visit `http://localhost:8000`. Checkboxes and notes persist in `localStorage` on that browser/device; no account or network API is used. External resource links need internet access.
+## Validation
 
-## Daily Git logging workflow
-
-Keep the tracker and your study log together:
+The app is plain browser JavaScript. Validate syntax with:
 
 ```bash
-git init                         # once
-git add index.html styles.css app.js README.md
-git commit -m "chore: start GATE sprint"
-
-# after each study day
-git add .
-git commit -m "study: day 07 probability bayes"
-git log --oneline --decorate -10
+node --check app.js
 ```
 
-Commit after a session even if the only change is a dated note in a separate `study-log.md` you maintain locally. Never commit credentials, answer keys with restricted content, or browser storage exports. Push to a remote only when you have intentionally created and secured that repository; this tracker does not create one.
+Then open the page and confirm that checking a learning row enables its paper links, filtering works, and pre-existing `gate-sprint-v1` progress remains visible.
